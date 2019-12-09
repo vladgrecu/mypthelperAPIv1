@@ -7,7 +7,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //CONNECT TO MONGODB
-const uri = process.env.DB_URI;
+const uri =
+  "mongodb+srv://vladgrecu:test1234@cluster0-fbkr8.gcp.mongodb.net/test?retryWrites=true&w=majority";
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true,
