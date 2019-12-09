@@ -18,11 +18,10 @@ const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB database connection established succesfully.");
 });
-
 //MIDDLEWARE
 app.use(cors());
 app.use(express.json());
-app.use("/photos", express.static("uploads"));
+app.use("/photos", express.static("./uploads"));
 //ROUTES
 const athletesRoute = require("./routes/athletes");
 const wodsRoute = require("./routes/wods");
