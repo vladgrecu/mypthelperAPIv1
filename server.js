@@ -1,12 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-
 require("dotenv").config();
 
 const app = express();
-const port = process.env.port || 3000;
+const port = process.env.PORT || 3000;
 
+//CONNECT TO MONGODB
 const uri = process.env.DB_URI;
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -21,11 +21,10 @@ connection.once("open", () => {
 //MIDDLEWARE
 app.use(cors());
 app.use(express.json());
-
+app.use("/photos", express.static("uploads"));
 //ROUTES
 const athletesRoute = require("./routes/athletes");
 const wodsRoute = require("./routes/wods");
-
 app.use("/athletes", athletesRoute);
 app.use("/wods", wodsRoute);
 
