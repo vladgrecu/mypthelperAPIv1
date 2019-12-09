@@ -31,13 +31,14 @@ const upload = multer({
 //GET ALL ATHLETES
 router.get("/", (req, res) => {
   Athletes.find()
+
     .then(athletes => res.json(athletes))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
 //ADD NEW ATHLETE
 router.post("/", upload.single("photo"), (req, res) => {
-  console.log(req.file);
+  const host = req.get("Host");
   const { name, age, sex, email, personalBest } = req.body;
   const photo = req.file;
   const newAthlete = new Athletes({
@@ -46,7 +47,7 @@ router.post("/", upload.single("photo"), (req, res) => {
     sex,
     email,
     personalBest,
-    photo: photo.path
+    photo: host + "/photos/" + photo.filename
   });
   newAthlete
     .save()
