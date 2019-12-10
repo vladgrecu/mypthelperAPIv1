@@ -21,7 +21,7 @@ connection.once("open", () => {
 //MIDDLEWARE
 app.use(cors());
 app.use(express.json());
-app.use("/photos", express.static("./uploads"));
+app.use("/photos", express.static(__dirname + "/uploads"));
 //ROUTES
 const athletesRoute = require("./routes/athletes");
 const wodsRoute = require("./routes/wods");
