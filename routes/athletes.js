@@ -39,6 +39,7 @@ router.get("/", (req, res) => {
 //ADD NEW ATHLETE
 router.post("/", upload.single("photo"), (req, res) => {
   const host = req.get("Host");
+  console.log(host);
   const { name, age, sex, email, personalBest } = req.body;
   const photo = req.file;
   const newAthlete = new Athletes({
@@ -47,7 +48,7 @@ router.post("/", upload.single("photo"), (req, res) => {
     sex,
     email,
     personalBest,
-    photo: host + "/photos/" + photo.filename
+    photo: "https://" + host + "/photos/" + photo.filename
   });
   newAthlete
     .save()
