@@ -16,6 +16,9 @@ const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB database connection established succesfully.");
 });
+
+const path = process.argv;
+console.log(path);
 //MIDDLEWARE
 app.use(cors());
 app.use(express.json());
