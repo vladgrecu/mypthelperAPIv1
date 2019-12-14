@@ -88,4 +88,25 @@ router.put("/:id", (req, res) => {
     });
 });
 
+//FIND SPECIFIC ATHLETE BY NAME
+router.get("/find/:query", (req, res) => {
+  const query = req.params.query;
+  Athletes.find(
+    {
+      name: {
+        $regex: query,
+        $options: "i"
+      }
+    },
+    (err, result) => {
+      if (err) throw "No Athlete with this name found!";
+      if (result.length) {
+        res.send(result);
+      } else {
+        res.send(JSON.stringify({ error: "No Athlete with this name found!" }));
+      }
+    }
+  );
+});
+
 module.exports = router;

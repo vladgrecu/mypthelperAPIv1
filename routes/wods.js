@@ -46,4 +46,24 @@ router.put("/:id", (req, res) => {
     });
 });
 
+router.get("/find/:query", (req, res) => {
+  const query = req.params.query;
+  Wods.find(
+    {
+      name: {
+        $regex: query,
+        $options: "i"
+      }
+    },
+    (err, result) => {
+      if (err) throw "No Wod with this name found!";
+      if (result.length) {
+        res.send(result);
+      } else {
+        res.send(JSON.stringify({ error: "No Wod with this name found!" }));
+      }
+    }
+  );
+});
+
 module.exports = router;
