@@ -1,32 +1,7 @@
 const express = require("express");
 const router = express.Router();
 let Athletes = require("../models/athlete.model");
-const multer = require("multer");
-
-const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, "uploads/");
-  },
-  filename: (req, file, callback) => {
-    callback(null, req.body.name.replace(/\s+/g, "") + "-" + file.originalname);
-  }
-});
-
-const fileFilter = (req, file, callback) => {
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-    callback(null, true);
-  } else {
-    callback(new Error("Only accepting jpeg/png image files"), false);
-  }
-};
-
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 1024 * 1024 * 5
-  },
-  fileFilter: fileFilter
-});
+const { profileImage } = require("../helpers/uploadToS3");
 
 //GET ALL ATHLETES
 router.get("/", (req, res) => {
@@ -37,24 +12,26 @@ router.get("/", (req, res) => {
 });
 
 //ADD NEW ATHLETE
-router.post("/", upload.single("photo"), (req, res) => {
+router.post("/", profileImage.single("photo"), (req, res) => {
   const host = req.get("Host");
   const { name, age, sex, email } = req.body;
   let photo;
   let personalBest = req.body.personalBest;
   personalBest = JSON.parse(personalBest);
   req.file
-    ? (photo = req.file.filename)
+    ? (photo =
+        "https://mypthelperbucket.s3.us-east-2.amazonaws.com/" +
+        req.file.originalname)
     : sex === "M"
-    ? (photo = "NoPhotoMale.jpg")
-    : (photo = "NoPhotoFemale.jpg");
+    ? (photo = "https://" + host + "/photos/NoPhotoMale.jpg")
+    : (photo = "https://" + host + "/photos/NoPhotoFemale.jpg");
   const newAthlete = new Athletes({
     name,
     age,
     sex,
     email,
     personalBest,
-    photo: "https://" + host + "/photos/" + photo
+    photo: photo
   });
   newAthlete
     .save()
