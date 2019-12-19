@@ -56,9 +56,7 @@ router.delete("/:id", (req, res) => {
 //EDIT ATHLETE
 router.put("/:id", (req, res) => {
   Athletes.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true })
-    .then(athlete => {
-      res.send(athlete);
-    })
+    .then(athlete => res.json(`Athlete ${athlete.name} updated`))
     .catch(err => {
       console.log(res.status);
       res.status(400).json("Error: " + err);
