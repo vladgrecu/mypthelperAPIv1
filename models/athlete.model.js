@@ -30,7 +30,7 @@ const athleteSchema = new Schema({
     backsquat: { type: Number, default: 0 },
     frontsquat: { type: Number, default: 0 },
     deadlift: { type: Number, default: 0 },
-    trapbardeadlift: { type: Number, default: 0 }
+    trapDeadlift: { type: Number, default: 0 }
   },
   photo: {
     type: String
