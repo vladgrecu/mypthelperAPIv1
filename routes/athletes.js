@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 //ADD NEW ATHLETE
 router.post("/", profileImage.single("photo"), (req, res) => {
   const host = req.get("Host");
-  const { name, age, sex, email } = req.body;
+  const { name, age, sex, email, phoneNumber } = req.body;
   let photo;
   let personalBest = req.body.personalBest;
   personalBest = JSON.parse(personalBest);
@@ -30,6 +30,7 @@ router.post("/", profileImage.single("photo"), (req, res) => {
     age,
     sex,
     email,
+    phoneNumber,
     personalBest,
     photo: photo
   });
@@ -56,11 +57,8 @@ router.delete("/:id", (req, res) => {
 //EDIT ATHLETE
 router.put("/:id", (req, res) => {
   Athletes.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true })
-    .then(athlete => res.json(`Athlete ${athlete.name} updated`))
-    .catch(err => {
-      console.log(res.status);
-      res.status(400).json("Error: " + err);
-    });
+    .then(athlete => res.json(`Athlete ${athlete.name} updated succesfully!`))
+    .catch(err => res.status(400).json("Error: " + err));
 });
 
 //FIND SPECIFIC ATHLETE BY NAME

@@ -14,6 +14,11 @@ const athleteSchema = new Schema({
     type: String,
     required: [true, "Genre is required"]
   },
+  phoneNumber: {
+    type: String,
+    required: [true, "Phone Number is required"],
+    unique: true
+  },
   email: {
     type: String,
     required: [
