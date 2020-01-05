@@ -61,6 +61,39 @@ router.put("/:id", (req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+//POST NEW WOD FOR ATHLETE
+router.post("/:id", (req, res) => {
+  Athletes.findById(req.params.id)
+    .then(athlete => {
+      if (athlete.wods.length === 0) {
+        athlete.wods.push(req.body);
+        athlete.save();
+        return res.json(
+          `${athlete.name} has done the ${req.body.name} Workout!`
+        );
+      }
+      let unique = true;
+      athlete.wods.forEach(wod => {
+        if (wod.name === req.body.name) {
+          unique = false;
+        }
+      });
+      if (unique) {
+        athlete.wods.push(req.body);
+        athlete.save();
+        return res.json(
+          `${athlete.name} has done the ${req.body.name} Workout!`
+        );
+      } else {
+        return res
+          .status(422)
+          .json(
+            `${athlete.name} has ALREADY done the ${req.body.name} Workout!`
+          );
+      }
+    })
+    .catch(err => res.status(400).json("Error: " + err));
+});
 //FIND SPECIFIC ATHLETE BY NAME
 router.get("/find/:query", (req, res) => {
   const query = req.params.query;

@@ -1,10 +1,23 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const wodSchema = new Schema({
+  name: {
+    type: String,
+    required: [true, "Name is required"],
+    unique: [true, "Wod already done by this athlete!"]
+  },
+  timeForCompletion: Number,
+  repsCounter: Number,
+  date: Date,
+  _id: false
+});
+
 const athleteSchema = new Schema({
   name: {
     type: String,
-    required: [true, "Name is required"]
+    required: [true, "Name is required"],
+    unique: true
   },
   age: {
     type: Number,
@@ -39,7 +52,8 @@ const athleteSchema = new Schema({
   },
   photo: {
     type: String
-  }
+  },
+  wods: [wodSchema]
 });
 const Athlete = mongoose.model("Athlete", athleteSchema);
 
