@@ -7,8 +7,8 @@ const wodSchema = new Schema({
     required: [true, "Name is required"],
     unique: [true, "Wod already done by this athlete!"]
   },
-  timeForCompletion: Number,
-  repsCounter: Number,
+  time: Number,
+  reps: Number,
   date: Date,
   _id: false
 });
