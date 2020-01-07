@@ -9,7 +9,7 @@ const wodSchema = new Schema({
   },
   time: Number,
   reps: Number,
-  date: Date,
+  date: { type: Date, default: Date.now },
   _id: false
 });
 
