@@ -8,10 +8,11 @@ const wodSchema = new Schema({
     required: true,
     unique: true
   },
+  description: { type: String, default: "N/A" },
   exercises: [
     {
       name: String,
-      nrOfReps: Number,
+      nrOfReps: { type: Number, default: 0 },
       weight: { type: Number, default: 0 },
       _id: false
     }
