@@ -12,6 +12,7 @@ const wodSchema = new Schema({
     {
       name: String,
       nrOfReps: Number,
+      weight: { type: Number, default: 0 },
       _id: false
     }
   ]
