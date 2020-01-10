@@ -12,8 +12,10 @@ router.get("/", (req, res) => {
 //POST NEW WOD
 router.post("/", (req, res) => {
   const name = req.body.name;
+  const description = req.body.description;
+  const time = req.body.time;
   const exercises = req.body.exercises;
-  const newWod = new Wods({ name, exercises });
+  const newWod = new Wods({ name, description, time, exercises });
   newWod
     .save()
     .then(() => res.json("Wod added to Database:" + newWod))
