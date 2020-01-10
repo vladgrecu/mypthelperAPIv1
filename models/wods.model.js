@@ -9,6 +9,7 @@ const wodSchema = new Schema({
     unique: true
   },
   description: { type: String, default: "N/A" },
+  time: { type: Number, default: 0 },
   exercises: [
     {
       name: String,
