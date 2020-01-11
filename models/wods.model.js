@@ -8,12 +8,13 @@ const wodSchema = new Schema({
     required: true,
     unique: true
   },
+  type: { type: String, required: true, default: "N/A" },
   description: { type: String, default: "N/A" },
   time: { type: Number, default: 0 },
   exercises: [
     {
       name: String,
-      nrOfReps: { type: Number, default: 0 },
+      reps: { type: Number, default: 0 },
       weight: { type: Number, default: 0 },
       _id: false
     }
