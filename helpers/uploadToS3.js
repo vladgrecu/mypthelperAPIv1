@@ -1,7 +1,7 @@
 require("dotenv").config;
 const AWS = require("aws-sdk");
 const multer = require("multer");
-const multerS3 = require("multer-s3");
+const multerS3 = require("multer-sharp-s3");
 
 const s3Config = new AWS.S3({
   accessKeyId: process.env.AWSAccessKeyId,
@@ -18,13 +18,18 @@ const fileFilter = (req, file, callback) => {
 
 const multerS3Config = multerS3({
   s3: s3Config,
-  bucket: process.env.AWSBucketName,
-  acl: "public-read",
+  Bucket: process.env.AWSBucketName,
+  ACL: "public-read",
   metadata: (req, file, callback) => {
     callback(null, { fieldName: file.fieldname });
   },
-  key: (req, file, callback) => {
+  Key: (req, file, callback) => {
     callback(null, file.originalname);
+  },
+
+  resize: {
+    width: 400,
+    height: 300
   }
 });
 

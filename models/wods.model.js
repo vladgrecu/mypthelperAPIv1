@@ -15,7 +15,7 @@ const wodSchema = new Schema({
     {
       name: String,
       reps: { type: Number, default: 0 },
-      weight: { type: Number, default: 0 },
+      weight: { type: String, default: "/ kg" },
       _id: false
     }
   ]
