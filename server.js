@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
 //CONNECT TO MONGODB
 const uri = process.env.DB_URI;
 mongoose.connect(uri, {
@@ -16,13 +17,18 @@ const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB database connection established succesfully.");
 });
+
 //MIDDLEWARE
 app.use(cors());
 app.use(express.json());
 app.use("/photos", express.static(__dirname + "/uploads"));
+
 //ROUTES
+const appointmentsRoute = require("./routes/appointments");
 const athletesRoute = require("./routes/athletes");
 const wodsRoute = require("./routes/wods");
+
+app.use("/appointments", appointmentsRoute);
 app.use("/athletes", athletesRoute);
 app.use("/wods", wodsRoute);
 
