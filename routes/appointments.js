@@ -12,21 +12,39 @@ router.get("/", (req, res) => {
 //ADD NEW APPOINTMENT
 router.post("/", (req, res) => {
   const { date, entries } = req.body;
-  entries.map(entry => {
-    return (entry = {
-      startHour: entry.startHour,
-      endHour: entry.endHour,
-      attendees: entry.attendees
-    });
-  });
   const newAppointment = new Appointments({
     date,
     entries
   });
   newAppointment
     .save()
-    .then(() => res.status(200).json("New Appointment: " + newAppointment))
-    .catch(err => res.status(400).json({ error: "Something went wrong" }));
+    .then(() =>
+      res.status(200).json({ success: "New Appointment created for " + date })
+    )
+    .catch(err =>
+      res.status(400).json({ error: "Something went wrong: " + err })
+    );
+});
+
+router.post("/:id", (req, res) => {
+  Appointments.findById(req.params.id)
+    .then(appointment => {
+      if (
+        appointment.entries.find(
+          entry => entry.startHour === req.body.startHour
+        )
+      ) {
+        throw `An entry at ${req.body.startHour} already exists!`;
+      }
+      appointment.entries.push(req.body);
+      appointment.save();
+      return res
+        .status(200)
+        .json({ success: "New Appointment created at " + req.body.startHour });
+    })
+    .catch(err =>
+      res.status(400).json({ error: "Something went wrong: " + err })
+    );
 });
 
 module.exports = router;

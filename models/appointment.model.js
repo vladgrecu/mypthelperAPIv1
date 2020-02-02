@@ -9,10 +9,9 @@ const appointmentSchema = new Schema({
   },
   entries: [
     {
-      startHour: { type: String },
-      endHour: { type: String },
-      attendees: { type: String },
-      _id: false
+      startHour: String,
+      endHour: String,
+      attendees: String
     }
   ]
 });
