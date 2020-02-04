@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 //ADD NEW ATHLETE
 router.post("/", profileImage.single("photo"), (req, res) => {
   const host = req.get("Host");
-  const { name, age, sex, email, phoneNumber } = req.body;
+  const { name, age, sex, email, phoneNumber, birthday } = req.body;
   let photo;
   let personalBest = req.body.personalBest;
   personalBest = JSON.parse(personalBest);
@@ -28,6 +28,7 @@ router.post("/", profileImage.single("photo"), (req, res) => {
   const newAthlete = new Athletes({
     name,
     age,
+    birthday,
     sex,
     email,
     phoneNumber,

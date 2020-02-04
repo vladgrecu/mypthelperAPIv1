@@ -40,6 +40,7 @@ const athleteSchema = new Schema({
     ],
     unique: true
   },
+  birthday: { type: String, default: "1988-03-22" },
   personalBest: {
     benchpress: { type: Number, default: 0 },
     strictpress: { type: Number, default: 0 },

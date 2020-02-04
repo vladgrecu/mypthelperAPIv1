@@ -8,6 +8,20 @@ router.get("/", (req, res) => {
     .then(appointments => res.json(appointments))
     .catch(err => res.status(404).json({ error: "Not found" }));
 });
+// GET SPECIFIC APPOINTMENT
+router.get("/:query", (req, res) => {
+  const query = req.params.query;
+  Appointments.find({ date: query }, (err, result) => {
+    if (err) {
+      throw "There was an error";
+    }
+    if (result.length) {
+      res.send(result);
+    } else {
+      res.send(JSON.stringify({ error: "There is no entry for this date!" }));
+    }
+  });
+});
 
 //ADD NEW APPOINTMENT
 router.post("/", (req, res) => {
@@ -25,7 +39,7 @@ router.post("/", (req, res) => {
       res.status(400).json({ error: "Something went wrong: " + err })
     );
 });
-
+// ADD APPOINTMENT WHERE THE ENTRY FOR THAT DATE EXISTS ALREADY
 router.post("/:id", (req, res) => {
   Appointments.findById(req.params.id)
     .then(appointment => {
