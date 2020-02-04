@@ -20,13 +20,12 @@ const multerS3Config = multerS3({
   s3: s3Config,
   Bucket: process.env.AWSBucketName,
   ACL: "public-read",
-  metadata: (req, file, callback) => {
-    callback(null, { fieldName: file.fieldname });
-  },
   Key: (req, file, callback) => {
     callback(null, file.originalname);
   },
-
+  withMetadata: {
+    orientation: 6
+  },
   resize: {
     width: 400,
     height: 300
