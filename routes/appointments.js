@@ -60,5 +60,23 @@ router.post("/:id", (req, res) => {
       res.status(400).json({ error: "Something went wrong: " + err })
     );
 });
+// EDIT ATHLETES FROM A SPECIFIC HOUR
+router.put("/:id", (req, res) => {
+  Appointments.findById(req.params.id)
+    .then(attendees => {
+      const myMap = attendees.entries.map(entry => {
+        if (entry._id == req.body.id) {
+          return (entry.attendees = req.body.attendees);
+        } else {
+          return entry;
+        }
+      });
+      attendees.save();
+      return res.status(200).json({ success: "Update done!" });
+    })
+    .catch(err =>
+      res.status(400).json({ error: "Something went wrong " + err })
+    );
+});
 
 module.exports = router;

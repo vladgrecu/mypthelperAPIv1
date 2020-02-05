@@ -64,7 +64,6 @@ router.put("/:id", (req, res) => {
 
 //POST NEW WOD FOR ATHLETE
 router.post("/:id", (req, res) => {
-  console.log(req.body);
   Athletes.findById(req.params.id)
     .then(athlete => {
       athlete.wods.push(req.body);
