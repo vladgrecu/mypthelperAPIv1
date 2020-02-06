@@ -6,7 +6,6 @@ const { profileImage } = require("../helpers/uploadToS3");
 //GET ALL ATHLETES
 router.get("/", (req, res) => {
   Athletes.find()
-
     .then(athletes => res.json(athletes))
     .catch(err => res.status(400).json("Error: " + err));
 });
