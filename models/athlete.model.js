@@ -19,10 +19,6 @@ const athleteSchema = new Schema({
     required: [true, "Name is required"],
     unique: true
   },
-  age: {
-    type: Number,
-    required: [true, "Age is required"]
-  },
   sex: {
     type: String,
     required: [true, "Genre is required"]
