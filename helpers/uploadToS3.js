@@ -23,9 +23,7 @@ const multerS3Config = multerS3({
   Key: (req, file, callback) => {
     callback(null, file.originalname);
   },
-  withMetadata: {
-    orientation: 6
-  },
+  rotate: true,
   resize: {
     width: 350
   }
