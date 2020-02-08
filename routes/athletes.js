@@ -55,8 +55,14 @@ router.delete("/:id", (req, res) => {
 
 //EDIT ATHLETE
 router.put("/:id", (req, res) => {
+  console.log(req.body);
   Athletes.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true })
-    .then(athlete => res.json(`Athlete ${athlete.name} updated succesfully!`))
+    .then(athlete =>
+      res.json({
+        message: `Athlete ${athlete.name} updated succesfully!`,
+        updatedField: req.body
+      })
+    )
     .catch(err => res.status(400).json("Error: " + err));
 });
 
