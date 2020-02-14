@@ -24,10 +24,12 @@ app.use(express.json());
 app.use("/photos", express.static(__dirname + "/uploads"));
 
 //ROUTES
+const usersRoute = require("./routes/users");
 const appointmentsRoute = require("./routes/appointments");
 const athletesRoute = require("./routes/athletes");
 const wodsRoute = require("./routes/wods");
 
+app.use("/users", usersRoute);
 app.use("/appointments", appointmentsRoute);
 app.use("/athletes", athletesRoute);
 app.use("/wods", wodsRoute);
