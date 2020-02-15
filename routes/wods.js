@@ -1,72 +1,23 @@
 const express = require("express");
 const router = express.Router();
-let Wods = require("../models/wods.model");
+const wodsController = require("../controllers/wodsController");
 
 //GET ALL WODS
-router.get("/", (req, res) => {
-  Wods.find()
-    .then(wod => res.json(wod))
-    .catch(err => res.status(400).json("Error: " + err));
-});
+router.get("/", wodsController.all);
 
 //POST NEW WOD
-router.post("/", (req, res) => {
-  const name = req.body.name;
-  const type = req.body.type;
-  const description = req.body.description;
-  const time = req.body.time;
-  const exercises = req.body.exercises;
-  const newWod = new Wods({ name, type, description, time, exercises });
-  newWod
-    .save()
-    .then(() => res.json("Wod added to Database:" + newWod))
-    .catch(err => res.status(400).json("Wod already exists"));
-});
+router.post("/", wodsController.new);
 
 //GET SPECIFIC WOD BY ID
-router.get("/:id", (req, res) => {
-  Wod.findById(req.params.id)
-    .then(wod => res.json(wod))
-    .catch(err => res.status(400).json("Error: " + err));
-});
+router.get("/:id", wodsController.one);
 
 //DELETE WOD
-router.delete("/:id", (req, res) => {
-  Wods.findByIdAndDelete(req.params.id)
-    .then(wod => res.json(`Wod ${wod.name} removed from Database!`))
-    .catch(err => res.status(400).json("Error: " + err));
-});
+router.delete("/:id", wodsController.delete);
 
 //EDIT WOD
-router.put("/:id", (req, res) => {
-  Wods.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true })
-    .then(wod => {
-      res.send(wod);
-    })
-    .catch(err => {
-      console.log(res.status);
-      res.status(400).json("Error: " + err);
-    });
-});
+router.put("/:id", wodsController.edit);
 
-router.get("/find/:query", (req, res) => {
-  const query = req.params.query;
-  Wods.find(
-    {
-      name: {
-        $regex: query,
-        $options: "i"
-      }
-    },
-    (err, result) => {
-      if (err) throw "No Wod with this name found!";
-      if (result.length) {
-        res.send(result);
-      } else {
-        res.send(JSON.stringify({ error: "No Wod with this name found!" }));
-      }
-    }
-  );
-});
+// SEARCH WOD BY NAME
+router.get("/find/:query", wodsController.search);
 
 module.exports = router;

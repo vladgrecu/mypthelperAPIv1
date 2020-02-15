@@ -1,25 +1,14 @@
 const express = require("express");
 const router = express.Router();
-let Users = require("../models/users.model");
+const userController = require("../controllers/usersController");
 
-router.post("/register", async (req, res) => {
-  try {
-    const { firstName, lastName, password, email } = req.body;
-    const isFoundInDb = await Users.find({ email: email });
-    console.log(isFoundInDb);
+// REGISTER
+router.post("/register", userController.register);
 
-    if (isFoundInDb.length) {
-      throw "User already exists!";
-    }
+// LOGIN
+router.post("/login", userController.login);
 
-    const newUser = new Users({ firstName, lastName, password, email });
-    await newUser.save();
-    res
-      .status(200)
-      .json({ success: `New Coach registered: ${firstName} ${lastName}` });
-  } catch (err) {
-    res.status(400).json({ error: err });
-  }
-});
+// DELETE
+router.delete("/:id", userController.delete);
 
 module.exports = router;
