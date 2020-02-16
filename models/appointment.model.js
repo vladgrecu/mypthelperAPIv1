@@ -8,6 +8,7 @@ const entrySchema = new Schema({
 });
 
 const appointmentSchema = new Schema({
+  coach: { type: Schema.Types.ObjectId, ref: "User" },
   date: {
     type: String,
     required: [true, "Date is required"],

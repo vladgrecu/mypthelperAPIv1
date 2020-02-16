@@ -2,7 +2,9 @@ const Athletes = require("../models/athlete.model");
 
 // GET ALL
 exports.all = async (req, res) => {
-  Athletes.find()
+  console.log("Params: ", req.params);
+  Athletes.find({ coach: req.params.coachId })
+    .populate("coach")
     .then(athletes => res.json(athletes))
     .catch(err => res.status(400).json("Error: " + err));
 };
@@ -22,6 +24,7 @@ exports.new = async (req, res) => {
     ? (photo = "https://" + host + "/photos/NoPhotoMale.jpg")
     : (photo = "https://" + host + "/photos/NoPhotoFemale.jpg");
   const newAthlete = new Athletes({
+    coach: req.params.coachId,
     name,
     birthday,
     sex,

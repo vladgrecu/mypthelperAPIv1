@@ -14,6 +14,7 @@ const wodSchema = new Schema({
 });
 
 const athleteSchema = new Schema({
+  coach: { type: Schema.Types.ObjectId, ref: "User" },
   name: {
     type: String,
     required: [true, "Name is required"],

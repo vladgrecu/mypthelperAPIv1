@@ -17,10 +17,7 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: true
-  },
-  appointments: [{ type: Schema.Types.ObjectId, ref: "Appointment" }],
-  athletes: [{ type: Schema.Types.ObjectId, ref: "Athlete" }],
-  wods: [{ type: Schema.Types.ObjectId, ref: "Wod" }]
+  }
 });
 
 const User = mongoose.model("User", userSchema);

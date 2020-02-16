@@ -12,7 +12,7 @@ const authorization = (req, res, next) => {
       return res.sendStatus(403);
     }
 
-    console.log(req.body, user.userId);
+    console.log(user);
     req.user = user;
     next();
   });
