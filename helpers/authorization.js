@@ -11,8 +11,6 @@ const authorization = (req, res, next) => {
     if (err) {
       return res.sendStatus(403);
     }
-
-    console.log(user);
     req.user = user;
     next();
   });

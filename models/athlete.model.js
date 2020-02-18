@@ -5,12 +5,11 @@ const wodSchema = new Schema({
   name: {
     type: String,
     required: [true, "Name is required"],
-    unique: [true, "Wod already done by this athlete!"]
+    sparse: true
   },
   time: { type: Number, default: 0 },
   reps: { type: Number, default: 0 },
-  date: { type: String },
-  _id: false
+  date: { type: String }
 });
 
 const athleteSchema = new Schema({

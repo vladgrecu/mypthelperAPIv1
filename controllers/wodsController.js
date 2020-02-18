@@ -2,7 +2,7 @@ let Wods = require("../models/wods.model");
 
 // GET ALL
 exports.all = async (req, res) => {
-  Wods.find()
+  Wods.find({ coach: req.user.id })
     .then(wod => res.json(wod))
     .catch(err => res.status(400).json("Error: " + err));
 };
@@ -14,7 +14,14 @@ exports.new = async (req, res) => {
   const description = req.body.description;
   const time = req.body.time;
   const exercises = req.body.exercises;
-  const newWod = new Wods({ name, type, description, time, exercises });
+  const newWod = new Wods({
+    coach: req.user.id,
+    name,
+    type,
+    description,
+    time,
+    exercises
+  });
   newWod
     .save()
     .then(() => res.json("Wod added to Database:" + newWod))

@@ -38,8 +38,9 @@ exports.register = async (req, res) => {
 
     res.status(201).json({
       accessToken,
-      success: `New Coach registered: ${firstName} ${lastName}`,
-      id: savedUser._id
+      success: `Welcome coach ${firstName} ${lastName}! My|PT|Helper is at your service!`,
+      id: savedUser._id,
+      name: firstName
     });
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -57,8 +58,6 @@ exports.login = async (req, res) => {
     }
     // check password
     const passwordMatch = await bcrypt.compare(password, isFoundInDb.password);
-    console.log("isFound : ", passwordMatch);
-
     if (!passwordMatch) {
       throw new Error("Invalid password");
     }
@@ -68,9 +67,14 @@ exports.login = async (req, res) => {
 
     // send response
 
-    res.status(200).json({ accessToken, id: isFoundInDb._id });
+    res.status(200).json({
+      accessToken,
+      success: `Welcome coach ${isFoundInDb.firstName} ${isFoundInDb.lastName}! My|PT|Helper is at your service!`,
+      id: isFoundInDb._id,
+      name: isFoundInDb.firstName
+    });
   } catch (err) {
-    res.status(404).send({ error: err.message });
+    res.status(400).send({ error: err.message });
   }
 };
 

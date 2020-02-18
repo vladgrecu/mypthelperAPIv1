@@ -1,14 +1,16 @@
 const Appointments = require("../models/appointment.model");
 
+// GET ALL
 exports.allAppointments = async (req, res) => {
   Appointments.find()
     .then(appointments => res.json(appointments))
     .catch(err => res.status(404).json({ error: "Not found" }));
 };
 
+// GET SPECIFIC DATE
 exports.byDate = async (req, res) => {
   const query = req.params.query;
-  Appointments.find({ date: query }, (err, result) => {
+  Appointments.find({ date: query, coach: req.user.id }, (err, result) => {
     if (err) {
       throw "There was an error";
     }
@@ -20,22 +22,25 @@ exports.byDate = async (req, res) => {
   });
 };
 
+// ADD NEW DATE TO DB
 exports.newDate = async (req, res) => {
   const { date, entries } = req.body;
   const newAppointment = new Appointments({
     date,
-    entries
+    entries,
+    coach: req.user.id
   });
   newAppointment
     .save()
     .then(() =>
-      res.status(200).json({ success: "New Appointment created for " + date })
+      res.status(201).json({ success: "New Appointment created for " + date })
     )
     .catch(err =>
       res.status(400).json({ error: "Something went wrong: " + err })
     );
 };
 
+// ADD NEW HOUR TO DATE
 exports.updateDate = async (req, res) => {
   Appointments.findById(req.params.id)
     .then(appointment => {
@@ -49,7 +54,7 @@ exports.updateDate = async (req, res) => {
       appointment.entries.push(req.body);
       appointment.save();
       return res
-        .status(200)
+        .status(201)
         .json({ success: "New Appointment created at " + req.body.startHour });
     })
     .catch(err =>
@@ -57,6 +62,7 @@ exports.updateDate = async (req, res) => {
     );
 };
 
+// EDIT Attendees at a specific HOUR
 exports.edit = async (req, res) => {
   Appointments.findById(req.params.id)
     .then(attendees => {

@@ -2,9 +2,7 @@ const Athletes = require("../models/athlete.model");
 
 // GET ALL
 exports.all = async (req, res) => {
-  console.log("Params: ", req.params);
-  Athletes.find({ coach: req.params.coachId })
-    .populate("coach")
+  Athletes.find({ coach: req.user.id })
     .then(athletes => res.json(athletes))
     .catch(err => res.status(400).json("Error: " + err));
 };
@@ -24,7 +22,7 @@ exports.new = async (req, res) => {
     ? (photo = "https://" + host + "/photos/NoPhotoMale.jpg")
     : (photo = "https://" + host + "/photos/NoPhotoFemale.jpg");
   const newAthlete = new Athletes({
-    coach: req.params.coachId,
+    coach: req.user.id,
     name,
     birthday,
     sex,
@@ -55,7 +53,6 @@ exports.delete = async (req, res) => {
 
 // EDIT
 exports.edit = async (req, res) => {
-  console.log(req.body);
   Athletes.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true })
     .then(athlete =>
       res.json({

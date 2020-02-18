@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server.js"
   },
-  "author": "vlad grecu",
+  "author": "Vlad Grecu",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.590.0",
