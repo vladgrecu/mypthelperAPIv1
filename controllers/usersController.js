@@ -52,7 +52,6 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const isFoundInDb = await Users.findOne({ email });
-
     if (!isFoundInDb) {
       throw new Error("User does not exist");
     }
